@@ -785,6 +785,32 @@ static void lcd_implementation_status_screen() {
 
   #endif // FILAMENT_LCD_DISPLAY
 
+  #define M0A
+  #ifdef M0A //remain time calc
+    if (IS_SD_PRINTING) {
+      float percent = card.percentDoneF();
+      if (percent >= 1.0 && percent < 100.0) {
+          char buffer[21];
+          duration_t d = print_job_timer.duration();
+          uint32_t remainTime = uint32_t(d.value  * (100.0 - percent) / percent);
+          d.value = remainTime;
+          d.toString(buffer);
+          lcd.print("ETE:");
+          lcd.print(buffer);
+          lcd.print("   ");
+          return;
+      } else {
+        // float percent = card.percentDoneF();
+        // lcd.print("P:");
+        // lcd.print(ftostr32(percent));
+        lcd.print("E:");
+        lcd.print(ftostr41sign(current_position[E_AXIS]));
+        return;
+      }
+    }
+
+  #endif
+
   lcd_print(lcd_status_message);
 }
 
