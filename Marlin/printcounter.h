@@ -31,6 +31,11 @@
 
 // Print debug messages with M111 S2
 //#define DEBUG_PRINTCOUNTER
+struct printFile {
+  uint32_t size;
+  uint32_t printTime;
+  double filamentUsed;
+};
 
 struct printStatistics {    // 13 bytes
   //const uint8_t magic;    // Magic header, it will always be 0x16
@@ -39,6 +44,11 @@ struct printStatistics {    // 13 bytes
   uint32_t printTime;       // Accumulated printing time
   uint32_t longestPrint;    // Longest successfull print job
   double   filamentUsed;    // Accumulated filament consumed in mm
+
+  printFile file1;
+  printFile file2;
+  printFile file3;
+
 };
 
 class PrintCounter: public Stopwatch {
@@ -46,6 +56,7 @@ class PrintCounter: public Stopwatch {
     typedef Stopwatch super;
 
     printStatistics data;
+    printFile currentFile;
 
     /**
      * @brief EEPROM address
@@ -160,6 +171,9 @@ class PrintCounter: public Stopwatch {
     bool start();
     bool stop();
     void reset();
+
+    void setFileSize(uint32_t size);
+    printFile getCurrentFile();
 
     #if ENABLED(DEBUG_PRINTCOUNTER)
 

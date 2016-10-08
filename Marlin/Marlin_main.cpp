@@ -3996,6 +3996,7 @@ inline void gcode_M17() {
    */
   inline void gcode_M23() {
     card.openFile(current_command_args, true);
+    print_job_timer.setFileSize(card.getFileSize());
   }
 
   /**
