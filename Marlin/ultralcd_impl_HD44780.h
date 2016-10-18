@@ -802,9 +802,8 @@ static void lcd_implementation_status_screen() {
           return;
       } else {
         printFile pf = print_job_timer.getCurrentFile();
-        lcd.print("S");
         lcd.print(ftostr12ns(pf.size/1024.0/1024.0));
-        lcd.print("MB E");
+        lcd.print("MB E:");
         lcd.print(itostr3(pf.filamentUsed));
         lcd.print("mm");
         return;
